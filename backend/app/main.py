@@ -29,7 +29,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Wind Dashboard API", lifespan=lifespan)
 
-_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+_origins = os.getenv("CORS_ORIGINS", "https://wind-forecast-api-vfsx.onrender.com/").split(",")
 
 app.add_middleware(
     CORSMiddleware,
