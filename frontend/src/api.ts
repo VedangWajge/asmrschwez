@@ -1,5 +1,7 @@
 import { DayAheadResponse } from './types'
 
+const API_BASE_URL = (import.meta.env.VITE_API_URL ?? '').replace(/\/+$/, '')
+
 export async function fetchDayAheadData(
   date: string,
   cutoffHour: number = 12
@@ -9,7 +11,7 @@ export async function fetchDayAheadData(
     date_to: date,
     cutoff_hour: cutoffHour.toString(),
   })
-  const res = await fetch(`/api/day-ahead?${params}`)
+  const res = await fetch(`${API_BASE_URL}/api/day-ahead?${params}`)
   if (!res.ok) {
     const errorBody = await res.json().catch(() => ({ detail: res.statusText }))
     throw new Error(errorBody.detail || `Request failed with status ${res.status}`)
