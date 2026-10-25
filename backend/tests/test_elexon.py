@@ -525,3 +525,12 @@ def test_calculate_accuracy_metrics_empty():
     assert m["rmse_mw"] is None
     assert m["bias_mw"] is None
 
+
+@pytest.mark.asyncio
+async def test_cors_headers_for_frontend():
+    from app.main import app
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        r = await ac.get("/health", headers={"Origin": "https://wind-forecast-api-vfsx.onrender.com"})
+    assert r.status_code == 200
+    assert r.headers.get("access-control-allow-origin") == "https://wind-forecast-api-vfsx.onrender.com"
+
